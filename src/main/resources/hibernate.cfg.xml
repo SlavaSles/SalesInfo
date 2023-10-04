@@ -5,23 +5,25 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/salesinfo?useSSL=false</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">ABCdef123$%^</property>
 <!--        <property name="connection.autocommit">false</property>-->
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">10</property>
         <!-- Select our SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.PostgresSQLDialect</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
         <!-- Echo the SQL to stdout -->
         <property name="show_sql">true</property>
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
         <!-- Create-drop the database schema on startup -->
-        <property name="hbm2ddl.auto">create-drop</property>
-
-        <mapping class="CustomerEntity"></mapping>
-        <mapping class="ProductEntity"></mapping>
-        <mapping class="PurchaseEntity"></mapping>
+        <property name="hbm2ddl.auto">update</property>
+<!--        <property name="default_schema">schema.sql</property>-->
+        <property name="hbm2dll.import_files">/customers.sql,/products.sql</property>
+        
+        <mapping class="dao.CustomerEntity"></mapping>
+        <mapping class="dao.ProductEntity"></mapping>
+        <mapping class="dao.PurchaseEntity"></mapping>
     </session-factory>
 </hibernate-configuration>

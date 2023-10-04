@@ -1,19 +1,17 @@
 package dao;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "customer")
+//@Table(name = "customer")
+@Table(name = "customer", schema = "public", catalog = "postgres")
 public class CustomerEntity {
 
     @Id
-    @GeneratedValue()
-    Integer id;
-    String name;
-    String lastname;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String name;
+    private String lastname;
 
     public CustomerEntity() {
     }

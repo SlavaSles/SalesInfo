@@ -27,4 +27,12 @@ public class ExpensesRange extends Criteria {
     public void setMaxExpenses(Integer maxExpenses) {
         this.maxExpenses = maxExpenses;
     }
+
+    @Override
+    public String toString() {
+        return "ExpensesRange{" +
+                "minExpenses=" + minExpenses +
+                ", maxExpenses=" + maxExpenses +
+                '}';
+    }
 }

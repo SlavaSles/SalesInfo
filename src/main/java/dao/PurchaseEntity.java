@@ -1,17 +1,27 @@
 package dao;
 
-import java.util.Date;
+import javax.persistence.*;
 
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "purchase", schema = "public", catalog = "postgres")
 public class PurchaseEntity {
-    Integer id;
-    CustomerEntity customer;
-    ProductEntity product;
-    Date date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @ManyToOne()
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
+    private LocalDate date;
 
     public PurchaseEntity() {
     }
 
-    public PurchaseEntity(CustomerEntity customer, ProductEntity product, Date date) {
+    public PurchaseEntity(CustomerEntity customer, ProductEntity product, LocalDate date) {
         this.customer = customer;
         this.product = product;
         this.date = date;
@@ -33,11 +43,11 @@ public class PurchaseEntity {
         this.product = productEntity;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }

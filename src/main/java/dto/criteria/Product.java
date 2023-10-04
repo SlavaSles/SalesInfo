@@ -27,4 +27,12 @@ public class Product extends Criteria {
     public void setMinTimes(Integer minTimes) {
         this.minTimes = minTimes;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productName='" + productName + '\'' +
+                ", minTimes=" + minTimes +
+                '}';
+    }
 }

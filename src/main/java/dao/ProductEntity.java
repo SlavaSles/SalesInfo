@@ -1,11 +1,17 @@
 package dao;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "product", schema = "public", catalog = "postgres")
 public class ProductEntity {
-    Integer id;
-    String productName;
-    BigDecimal price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "product_name")
+    private String productName;
+    private BigDecimal price;
 
     public ProductEntity() {
     }

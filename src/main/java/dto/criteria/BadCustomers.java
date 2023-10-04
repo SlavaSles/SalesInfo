@@ -17,4 +17,11 @@ public class BadCustomers extends Criteria {
     public void setBadCustomers(Integer badCustomers) {
         this.badCustomers = badCustomers;
     }
+
+    @Override
+    public String toString() {
+        return "BadCustomers{" +
+                "badCustomers=" + badCustomers +
+                '}';
+    }
 }

@@ -1,7 +1,6 @@
 package dto.response.statistic;
 
 import dto.response.ResponseType;
-import dto.response.search.CustomerResults;
 
 import java.math.BigDecimal;
 import java.util.List;
