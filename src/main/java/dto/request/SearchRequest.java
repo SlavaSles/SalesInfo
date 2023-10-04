@@ -5,7 +5,7 @@ import dto.criteria.Criteria;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchRequest {
+public class SearchRequest extends Request {
 
     private List<Criteria> criterias = new ArrayList<>();
 

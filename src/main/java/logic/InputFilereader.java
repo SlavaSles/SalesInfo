@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.criteria.*;
+import dto.request.Request;
 import dto.request.SearchRequest;
 import dto.request.StatRequest;
 import dto.response.ResponseType;
@@ -24,15 +25,16 @@ public class InputFilereader {
         this.type = cliArgs.getType();
     }
 
-    public void getRequest() {
+    public Request getRequest() {
         String jsonFile = readFile();
+        Request request;
         if (type == ResponseType.SEARCH) {
-            SearchRequest searchRequest = parseSearchRequest(jsonFile);
-            System.out.println(searchRequest);
+            request = parseSearchRequest(jsonFile);
         } else {
-            StatRequest statRequest = parseStatRequest(jsonFile);
-            System.out.println(statRequest);
+            request = parseStatRequest(jsonFile);
         }
+        System.out.println(request);
+        return request;
     }
 
     public String readFile() {
@@ -47,8 +49,10 @@ public class InputFilereader {
                 builder.append(line).append("\n");
             }
         } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Не удалось найти файл " + inputFilePath);
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Ошибка чтения файла " + inputFilePath);
         }
         return builder.toString();
@@ -62,7 +66,8 @@ public class InputFilereader {
         JsonNode jsonData = null;
         try {
             jsonData = objectMapper.readTree(jsonFile);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Ошибка преобразования json содержимого файла " + inputFilePath + " в объект");
         }
         JsonNode criterias = jsonData.get("criterias");
@@ -89,6 +94,7 @@ public class InputFilereader {
                             inputFilePath);
                 }
             } catch (NumberFormatException ex) {
+                ex.printStackTrace();
                 throw new RuntimeException("Ошибка преобразования значения поля входного файла " +
                         inputFilePath + " в целое число");
             }
@@ -104,7 +110,8 @@ public class InputFilereader {
         JsonNode jsonData = null;
         try {
             jsonData = objectMapper.readTree(jsonFile);
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Ошибка преобразования json содержимого файла " + inputFilePath + " в объект");
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -114,6 +121,7 @@ public class InputFilereader {
             statRequest.setStartDate(LocalDate.parse(startDateString, formatter));
             statRequest.setEndDate(LocalDate.parse(endDateString, formatter));
         } catch (DateTimeParseException ex) {
+            ex.printStackTrace();
             throw new RuntimeException("Ошибка преобразования значения поля входного файла " +
                     inputFilePath + " в дату");
         }

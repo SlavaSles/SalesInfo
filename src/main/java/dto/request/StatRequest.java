@@ -2,7 +2,7 @@ package dto.request;
 
 import java.time.LocalDate;
 
-public class StatRequest {
+public class StatRequest extends Request {
     private LocalDate startDate;
     private LocalDate endDate;
 
