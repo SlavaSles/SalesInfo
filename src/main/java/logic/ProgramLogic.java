@@ -6,7 +6,6 @@ import dto.request.StatRequest;
 import dto.response.ErrorResponse;
 import dto.response.Response;
 import dto.response.ResponseType;
-import dto.response.search.SearchResponse;
 
 public class ProgramLogic {
     private String [] args;

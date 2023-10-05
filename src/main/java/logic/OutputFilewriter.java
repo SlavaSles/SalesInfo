@@ -1,6 +1,7 @@
 package logic;
 
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import dto.response.ErrorResponse;
@@ -19,17 +20,15 @@ public class OutputFilewriter {
         try {
             if (response instanceof SearchResponse) {
                 SearchResponse searchResponse = (SearchResponse) response;
-
-                writer.writeValue(Paths.get(cliArgs.getOutputFilePath()).toFile(), searchResponse);
+                JsonNode jSearchResponse = writeMapper.valueToTree(searchResponse);
+                writer.writeValue(Paths.get(cliArgs.getOutputFilePath()).toFile(), jSearchResponse);
             } else if (response instanceof ErrorResponse) {
                 ErrorResponse errorResponse = (ErrorResponse) response;
-                writer.writeValue(Paths.get(cliArgs.getOutputFilePath()).toFile(), errorResponse);
+                JsonNode jErrorResponse = writeMapper.valueToTree(errorResponse);
+                writer.writeValue(Paths.get(cliArgs.getOutputFilePath()).toFile(), jErrorResponse);
             }
         } catch (IOException e) {
             throw new RuntimeException("Ошибка записи ответа в файл " + cliArgs.getOutputFilePath());
         }
-    }
-
-
     }
 }
