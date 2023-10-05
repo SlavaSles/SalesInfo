@@ -2,7 +2,7 @@
   "criterias": [
     {"lastName": "Sellers"},
     {"productName": "Chef Hat 25cm", "minTimes": 2},
-    {"minExpenses": 112, "maxExpenses": "4000"},
+    {"minExpenses": 0, "maxExpenses": 0},
     {"badCustomers": 3},
     {"lastName": "Mcgowan"},
     {"lastName": "Anthony"}

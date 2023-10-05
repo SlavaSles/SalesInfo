@@ -1,15 +1,15 @@
 package dto.response.search;
 
 public class Customer {
-    private String name;
     private String lastname;
+    private String name;
 
     public Customer() {
     }
 
-    public Customer(String name, String surname) {
+    public Customer(String name, String lastname) {
+        this.lastname = lastname;
         this.name = name;
-        this.lastname = surname;
     }
 
     public String getName() {

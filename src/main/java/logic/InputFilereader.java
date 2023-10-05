@@ -82,17 +82,29 @@ public class InputFilereader {
                 if (textCriteria.contains("lastName")) {
                     criteriya = new Lastname(criteriaNode.get("lastName").asText());
                 } else if (textCriteria.contains("productName")) {
-                    criteriya = new Product(criteriaNode.get("productName").asText(),
-                            Integer.parseInt(criteriaNode.get("minTimes").asText()));
+                    int minTimes = Integer.parseInt(criteriaNode.get("minTimes").asText());
+                    if (minTimes < 1) {
+                        throw new IllegalArgumentException("Количество товаров minTimes должно быть больше 0");
+                    }
+                    criteriya = new Product(criteriaNode.get("productName").asText(), minTimes);
                 } else if (textCriteria.contains("minExpenses")) {
-                    criteriya = new ExpensesRange(
-                            Integer.parseInt(criteriaNode.get("minExpenses").asText()),
-                            Integer.parseInt(criteriaNode.get("maxExpenses").asText())
-                    );
+                    int minExpenses = Integer.parseInt(criteriaNode.get("minExpenses").asText());
+                    int maxExpenses = Integer.parseInt(criteriaNode.get("maxExpenses").asText());
+                    criteriya = new ExpensesRange(minExpenses, maxExpenses);
+                    if (minExpenses < 0 || maxExpenses < 0) {
+                        throw new IllegalArgumentException("Минимальная minExpenses и максимальная maxExpenses " +
+                                "стоимость покупок должны быть не меньше 0");
+                    } else if (minExpenses > maxExpenses) {
+                        throw new IllegalArgumentException("Значение минимальной стоимости покупок minExpenses " +
+                                "должно быть меньше максимальной maxExpenses стоимости");
+                    }
                 } else if (textCriteria.contains("badCustomers")) {
-                    criteriya = new BadCustomers(
-                            Integer.parseInt(criteriaNode.get("badCustomers").asText())
-                    );
+                    int countBadCustomers = Integer.parseInt(criteriaNode.get("badCustomers").asText());
+                    if (countBadCustomers < 0) {
+                        throw new IllegalArgumentException("Количество запрашиваемых пассивных покупателей " +
+                                "должно быть больше 0");
+                    }
+                    criteriya = new BadCustomers(countBadCustomers);
                 } else {
                     throw new RuntimeException("Неверный формат одного из критериев (полей) во входном файле " +
                             inputFilePath);

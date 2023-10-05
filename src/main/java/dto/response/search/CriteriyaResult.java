@@ -2,38 +2,40 @@ package dto.response.search;
 
 import dto.criteria.Criteriya;
 
+import java.util.List;
+
 public class CriteriyaResult {
-    private Criteriya criteriya;
-    private CustomerResults results;
+    private Criteriya criteria;
+    private List<Customer> results;
 
     public CriteriyaResult() {
     }
 
-    public CriteriyaResult(Criteriya criteriya, CustomerResults results) {
-        this.criteriya = criteriya;
+    public CriteriyaResult(Criteriya criteria, List<Customer> results) {
+        this.criteria = criteria;
         this.results = results;
     }
 
-    public Criteriya getCriteriya() {
-        return criteriya;
+    public Criteriya getCriteria() {
+        return criteria;
     }
 
-    public void setCriteriya(Criteriya criteriya) {
-        this.criteriya = criteriya;
+    public void setCriteria(Criteriya criteria) {
+        this.criteria = criteria;
     }
 
-    public CustomerResults getResults() {
+    public List<Customer> getResults() {
         return results;
     }
 
-    public void setResults(CustomerResults results) {
+    public void setResults(List<Customer> results) {
         this.results = results;
     }
 
     @Override
     public String toString() {
         return "\nCriteriyaResult{" +
-                "criteriya=" + criteriya +
+                "criteriya=" + criteria +
                 ", \nresults=" + results +
                 '}';
     }

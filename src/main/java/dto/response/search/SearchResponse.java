@@ -3,17 +3,20 @@ package dto.response.search;
 import dto.response.Response;
 import dto.response.ResponseType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchResponse extends Response {
 //    Может нужно будет заменить Enum на String
     private ResponseType type = ResponseType.SEARCH;
-    private Result results;
+    private List<CriteriyaResult> results;
 
     public SearchResponse() {
     }
 
     public SearchResponse(ResponseType type) {
         this.type = type;
-        this.results = new Result();
+        this.results = new ArrayList<>();
     }
 
     public ResponseType getType() {
@@ -24,11 +27,11 @@ public class SearchResponse extends Response {
         this.type = type;
     }
 
-    public Result getResults() {
+    public List<CriteriyaResult> getResults() {
         return results;
     }
 
-    public void setResults(Result results) {
+    public void setResults(List<CriteriyaResult> results) {
         this.results = results;
     }
 
@@ -36,7 +39,7 @@ public class SearchResponse extends Response {
     public String toString() {
         return "SearchResponse{" +
                 "type=" + type +
-                ", results=" + results +
+                ", criteriyaResults=" + results +
                 '}';
     }
 }

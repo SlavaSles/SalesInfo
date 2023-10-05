@@ -8,7 +8,6 @@ import dto.request.SearchRequest;
 import dto.response.ResponseType;
 import dto.response.search.CriteriyaResult;
 import dto.response.search.Customer;
-import dto.response.search.CustomerResults;
 import dto.response.search.SearchResponse;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -30,7 +29,7 @@ public class SearchLogic {
 
     public SearchResponse search() {
         SearchResponse searchResponse = new SearchResponse(ResponseType.SEARCH);
-        List<CriteriyaResult> criteriyaResults = searchResponse.getResults().getCriteriaResults();
+        List<CriteriyaResult> criteriyaResults = searchResponse.getResults();
         List<Criteriya> criteriyas = searchRequest.getCriteriyas();
         for (Criteriya criteriya : criteriyas) {
 //            System.out.println("****");
@@ -65,8 +64,8 @@ public class SearchLogic {
             Customer respCustomer = new Customer(customer.getName(), customer.getLastname());
             respCustomers.add(respCustomer);
         }
-        CustomerResults customerResults = new CustomerResults(respCustomers);
-        CriteriyaResult criteriyaResult = new CriteriyaResult(criteriya, customerResults);
+//        CustomerResults customerResults = new CustomerResults(respCustomers);
+        CriteriyaResult criteriyaResult = new CriteriyaResult(criteriya, respCustomers);
         return criteriyaResult;
     }
 
