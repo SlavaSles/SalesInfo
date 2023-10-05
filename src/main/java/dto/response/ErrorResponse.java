@@ -1,6 +1,6 @@
 package dto.response;
 
-public class ErrorResponse {
+public class ErrorResponse extends Response {
     ResponseType type = ResponseType.ERROR;
     String message;
 

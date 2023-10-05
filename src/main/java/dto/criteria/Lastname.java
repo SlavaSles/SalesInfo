@@ -1,6 +1,6 @@
 package dto.criteria;
 
-public class Lastname extends Criteria {
+public class Lastname extends Criteriya {
     String lastName;
 
     public Lastname() {

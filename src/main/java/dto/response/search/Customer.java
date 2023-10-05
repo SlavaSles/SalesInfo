@@ -1,8 +1,8 @@
 package dto.response.search;
 
 public class Customer {
-    String name;
-    String lastname;
+    private String name;
+    private String lastname;
 
     public Customer() {
     }
@@ -26,5 +26,13 @@ public class Customer {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
     }
 }

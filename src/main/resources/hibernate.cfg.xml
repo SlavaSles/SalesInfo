@@ -15,12 +15,14 @@
         <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
         <!-- Echo the SQL to stdout -->
         <property name="show_sql">true</property>
+        <!-- Format SQL to stdout -->
+        <property name="format_sql">true</property>
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
         <!-- Create-drop the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 <!--        <property name="default_schema">schema.sql</property>-->
-        <property name="hbm2dll.import_files">/customers.sql,/products.sql</property>
+<!--        <property name="hbm2dll.import_files">/customers.sql,/products.sql</property>-->
         
         <mapping class="dao.CustomerEntity"></mapping>
         <mapping class="dao.ProductEntity"></mapping>

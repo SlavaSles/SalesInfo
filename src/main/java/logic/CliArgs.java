@@ -6,7 +6,7 @@ public class CliArgs {
     private ResponseType type;
     private String inputFilePath;
     private String outputFilePath;
-    private String subFolderToOutputFile;
+    private String subFolderToOutputFile; //    Может не понадобиться.
 
     public CliArgs() {
     }

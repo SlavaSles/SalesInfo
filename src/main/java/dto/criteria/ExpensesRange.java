@@ -1,6 +1,6 @@
 package dto.criteria;
 
-public class ExpensesRange extends Criteria {
+public class ExpensesRange extends Criteriya {
     Integer minExpenses;
     Integer maxExpenses;
 

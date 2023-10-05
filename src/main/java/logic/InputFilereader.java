@@ -59,7 +59,7 @@ public class InputFilereader {
     }
 
 //    При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
-//    Todo: сделать проверку на допустимые значения параметров (>< 0 и т. д.)
+//    ToDo: сделать проверку на допустимые значения параметров (>< 0 и т. д.)
     private SearchRequest parseSearchRequest(String jsonFile) {
         SearchRequest searchRequest = new SearchRequest();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -71,22 +71,26 @@ public class InputFilereader {
             throw new RuntimeException("Ошибка преобразования json содержимого файла " + inputFilePath + " в объект");
         }
         JsonNode criterias = jsonData.get("criterias");
+        if (criterias == null) {
+            throw new RuntimeException("Тип операции в параметрах запуска не соответствует типу входного файла "
+                    + inputFilePath);
+        }
         for (JsonNode criteriaNode : criterias) {
-            Criteria criteria = null;
+            Criteriya criteriya = null;
             String textCriteria = criteriaNode.toString();
             try {
                 if (textCriteria.contains("lastName")) {
-                    criteria = new Lastname(criteriaNode.get("lastName").asText());
+                    criteriya = new Lastname(criteriaNode.get("lastName").asText());
                 } else if (textCriteria.contains("productName")) {
-                    criteria = new Product(criteriaNode.get("productName").asText(),
+                    criteriya = new Product(criteriaNode.get("productName").asText(),
                             Integer.parseInt(criteriaNode.get("minTimes").asText()));
                 } else if (textCriteria.contains("minExpenses")) {
-                    criteria = new ExpensesRange(
+                    criteriya = new ExpensesRange(
                             Integer.parseInt(criteriaNode.get("minExpenses").asText()),
                             Integer.parseInt(criteriaNode.get("maxExpenses").asText())
                     );
                 } else if (textCriteria.contains("badCustomers")) {
-                    criteria = new BadCustomers(
+                    criteriya = new BadCustomers(
                             Integer.parseInt(criteriaNode.get("badCustomers").asText())
                     );
                 } else {
@@ -98,7 +102,7 @@ public class InputFilereader {
                 throw new RuntimeException("Ошибка преобразования значения поля входного файла " +
                         inputFilePath + " в целое число");
             }
-            searchRequest.getCriterias().add(criteria);
+            searchRequest.getCriteriyas().add(criteriya);
         }
         return searchRequest;
     }
@@ -115,8 +119,14 @@ public class InputFilereader {
             throw new RuntimeException("Ошибка преобразования json содержимого файла " + inputFilePath + " в объект");
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String startDateString = jsonData.get("startDate").asText();
-        String endDateString = jsonData.get("endDate").asText();
+        JsonNode startDateJson = jsonData.get("startDate");
+        if (startDateJson == null) {
+            throw new RuntimeException("Тип операции в параметрах запуска не соответствует типу входного файла "
+                    + inputFilePath);
+        }
+        String startDateString = startDateJson.asText();
+        JsonNode endDateJson = jsonData.get("endDate");
+        String endDateString = endDateJson.asText();
         try {
             statRequest.setStartDate(LocalDate.parse(startDateString, formatter));
             statRequest.setEndDate(LocalDate.parse(endDateString, formatter));

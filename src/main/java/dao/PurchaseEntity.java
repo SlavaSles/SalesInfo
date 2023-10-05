@@ -50,4 +50,14 @@ public class PurchaseEntity {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "PurchaseEntity{" +
+                "id=" + id +
+                ", customer=" + customer +
+                ", product=" + product +
+                ", date=" + date +
+                '}';
+    }
 }

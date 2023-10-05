@@ -12,12 +12,14 @@ public class HibernateSF {
 
     private static SessionFactory sessionFactory = null;
 
-    private static void initSessionFactory() {
+    public static void initSessionFactory() {
         try {
-            StandardServiceRegistry registry = new StandardServiceRegistryBuilder().
-                    configure("hibernate.cfg.xml").build();
-            Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
-            sessionFactory = metadata.getSessionFactoryBuilder().build();
+            if (sessionFactory == null) {
+                StandardServiceRegistry registry = new StandardServiceRegistryBuilder().
+                        configure("hibernate.cfg.xml").build();
+                Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
+                sessionFactory = metadata.getSessionFactoryBuilder().build();
+            }
         } catch (HibernateException ex) {
             throw new RuntimeException("Ошибка инициализации SessionFactory Hibernate. Неверные данные в файле конфигурации");
         }

@@ -1,6 +1,6 @@
 package dto.criteria;
 
-public class BadCustomers extends Criteria {
+public class BadCustomers extends Criteriya {
     Integer badCustomers;
 
     public BadCustomers() {

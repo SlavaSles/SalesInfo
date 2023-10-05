@@ -1,29 +1,29 @@
 package dto.request;
 
-import dto.criteria.Criteria;
+import dto.criteria.Criteriya;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchRequest extends Request {
 
-    private List<Criteria> criterias = new ArrayList<>();
+    private List<Criteriya> criteriyas = new ArrayList<>();
 
     public SearchRequest() {
     }
 
-    public List<Criteria> getCriterias() {
-        return criterias;
+    public List<Criteriya> getCriteriyas() {
+        return criteriyas;
     }
 
-    public void setCriterias(List<Criteria> criterias) {
-        this.criterias = criterias;
+    public void setCriteriyas(List<Criteriya> criteriyas) {
+        this.criteriyas = criteriyas;
     }
 
     @Override
     public String toString() {
         return "SearchRequest{" +
-                "criterias=" + criterias +
+                "criterias=" + criteriyas +
                 '}';
     }
 }
