@@ -15,7 +15,7 @@ public class ProgramLogic {
     public ProgramLogic(String[] args) {
         this.args = args;
     }
-
+//    ToDo: Настроить автозагрузку дампа таблицы в Hibernate
     public void run() {
         try {
             ArgsReader argsReader = new ArgsReader(args);

@@ -2,9 +2,11 @@
   "criterias": [
     {"lastName": "Sellers"},
     {"productName": "Chef Hat 25cm", "minTimes": 2},
-    {"minExpenses": 0, "maxExpenses": 0},
-    {"badCustomers": 3},
-    {"lastName": "Mcgowan"},
+    {"minExpenses": 1000, "maxExpenses": 3000},
+    {"badCustomers": 5},
+    {"lastName": "Macgowan"},
+    {"minExpenses": 1500, "maxExpenses": 2000},
+    {"productName": "Devonshire Cream", "minTimes": 1},
     {"lastName": "Anthony"}
   ]
 }

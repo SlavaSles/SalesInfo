@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArgsReader {
-    private final String FILENAME_REGEX = "^(((\\w+[\\-_\\w]*/)*)\\w+[\\-_\\w]*\\.\\w+)$";
+    private final String FILENAME_REGEX = "^((\\w+[\\-_\\w]*/)*\\w+[\\-_\\w]*\\.\\w+)$";
     private String[] args;
     private CliArgs cliArgs;
 
@@ -41,7 +41,6 @@ public class ArgsReader {
                     cliArgs.setInputFilePath(matcher.group(1).trim());
                 } else {
                     cliArgs.setOutputFilePath(matcher.group(1).trim());
-                    cliArgs.setSubFolderToOutputFile(matcher.group(2));
                 }
             } else {
                 errorMessage = "В параметрах запуска неверно указано имя файла";

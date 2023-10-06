@@ -1,0 +1,13 @@
+Рабочие варианты параметров для командной строки:
+search data/inputSearch.json data/output.json
+stat data/inputStat.json data/output.json
+
+Тестовые варианты параметров для командной строки для проверки ArgsReader:
+input.json output.json
+searchLogic input.json output.json
+seaRCh input.json output.json
+stat data%/abc-def_ghi.abc output/file/cde_fgh.json
+stat data/abc-def_ghi. output/file/cde_fgh.json
+stAt data/abc-def_ghi.abc output/file/cde_fgh.
+stat data/abc-def_ghi.abc output/file/cde_fgh.json
+stat data/inputStat.json data/output.json

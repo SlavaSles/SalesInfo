@@ -58,8 +58,12 @@ public class InputFilereader {
         return builder.toString();
     }
 
-//    При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
 //    ToDo: сделать проверку на допустимые значения параметров (>< 0 и т. д.)
+    /**
+     * При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
+     * Если во входном файле в каком-либо из критериев будут указаны некорректные данные,
+     * то приложение выдаст сообщение об ошибке!
+     */
     private SearchRequest parseSearchRequest(String jsonFile) {
         SearchRequest searchRequest = new SearchRequest();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -118,8 +122,9 @@ public class InputFilereader {
         }
         return searchRequest;
     }
-
-//    При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
+    /**
+     * При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
+     */
     private StatRequest parseStatRequest(String jsonFile) {
         StatRequest statRequest = new StatRequest();
         ObjectMapper objectMapper = new ObjectMapper();

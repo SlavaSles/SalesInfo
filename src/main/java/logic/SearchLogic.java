@@ -13,10 +13,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Tuple;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,17 +29,14 @@ public class SearchLogic {
         List<CriteriyaResult> criteriyaResults = searchResponse.getResults();
         List<Criteriya> criteriyas = searchRequest.getCriteriyas();
         for (Criteriya criteriya : criteriyas) {
-//            System.out.println("****");
             ArrayList<CustomerEntity> customers = new ArrayList<>();
             if (criteriya instanceof Lastname) {
                 Lastname lastname = (Lastname) criteriya;
                 customers = lastnameSearch(lastname);
             } else if (criteriya instanceof Product) {
-//                System.out.println("Criteriya is Product");
                 Product product = (Product) criteriya;
                 customers = productSearch(product);
             } else if (criteriya instanceof ExpensesRange) {
-                System.out.println("Criteriya is ExpensesRange");
                 ExpensesRange expensesRange = (ExpensesRange) criteriya;
                 customers = expensesRangeSearch(expensesRange);
             } else if (criteriya instanceof BadCustomers) {
@@ -50,7 +44,6 @@ public class SearchLogic {
                 BadCustomers badCustomers = (BadCustomers) criteriya;
                 customers = badCustomersSearch(badCustomers);
             }
-
             criteriyaResults.add(createCriteriyaResult(customers, criteriya));
         }
         System.out.println("****");
@@ -64,7 +57,6 @@ public class SearchLogic {
             Customer respCustomer = new Customer(customer.getName(), customer.getLastname());
             respCustomers.add(respCustomer);
         }
-//        CustomerResults customerResults = new CustomerResults(respCustomers);
         CriteriyaResult criteriyaResult = new CriteriyaResult(criteriya, respCustomers);
         return criteriyaResult;
     }
@@ -113,13 +105,53 @@ public class SearchLogic {
 
     private ArrayList<CustomerEntity> expensesRangeSearch(ExpensesRange expensesRange) {
         ArrayList<CustomerEntity> customers = new ArrayList<>();
-
+        Session session = HibernateSF.openSession();
+        Transaction transaction = session.beginTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Tuple> customerQuery = builder.createQuery(Tuple.class);
+        Root<PurchaseEntity> purchaseRoot = customerQuery.from(PurchaseEntity.class);
+        Join<PurchaseEntity,CustomerEntity> customerJoin = purchaseRoot.join("customer");
+        Join<ProductEntity,PurchaseEntity> productJoin = purchaseRoot.join("product");
+        customerQuery.multiselect(customerJoin, builder.sum(productJoin.get("price")))
+                .groupBy(customerJoin.get("id"))
+                .having(builder
+                                .and(builder.ge(builder
+                                        .sum(productJoin.get("price")), expensesRange.getMinExpenses())),
+                        builder.le(builder
+                                .sum(productJoin.get("price")), expensesRange.getMaxExpenses()))
+                .orderBy(builder.desc((Expression<?>) builder.sum(productJoin.get("price"))));
+        ArrayList<Tuple> customerCountTuples = (ArrayList<Tuple>) session.createQuery(customerQuery).getResultList();
+        for(Tuple tuple : customerCountTuples) {
+            CustomerEntity customer = tuple.get(0, CustomerEntity.class);
+            System.out.println(customer);
+            customers.add(customer);
+        }
+        transaction.commit();
+        session.close();
         return customers;
     }
 
     private ArrayList<CustomerEntity> badCustomersSearch(BadCustomers badCustomers) {
         ArrayList<CustomerEntity> customers = new ArrayList<>();
-
+        Session session = HibernateSF.openSession();
+        Transaction transaction = session.beginTransaction();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Tuple> customerQuery = builder.createQuery(Tuple.class);
+        Root<PurchaseEntity> purchaseRoot = customerQuery.from(PurchaseEntity.class);
+        Join<PurchaseEntity,CustomerEntity> customerJoin = purchaseRoot.join("customer");
+        Join<ProductEntity,PurchaseEntity> productJoin = purchaseRoot.join("product");
+        customerQuery.multiselect(customerJoin, builder.sum(productJoin.get("price")))
+                .groupBy(customerJoin.get("id"))
+                .orderBy(builder.asc((Expression<?>) builder.sum(productJoin.get("price"))));
+        ArrayList<Tuple> customerCountTuples = (ArrayList<Tuple>) session.createQuery(customerQuery)
+                .setMaxResults(badCustomers.getBadCustomers()).getResultList();
+        for(Tuple tuple : customerCountTuples) {
+            CustomerEntity customer = tuple.get(0, CustomerEntity.class);
+            System.out.println(customer);
+            customers.add(customer);
+        }
+        transaction.commit();
+        session.close();
         return customers;
     }
 }

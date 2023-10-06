@@ -6,7 +6,6 @@ public class CliArgs {
     private ResponseType type;
     private String inputFilePath;
     private String outputFilePath;
-    private String subFolderToOutputFile; //    Может не понадобиться.
 
     public CliArgs() {
     }
@@ -35,13 +34,6 @@ public class CliArgs {
         this.outputFilePath = outputFilePath;
     }
 
-    public String getSubFolderToOutputFile() {
-        return subFolderToOutputFile;
-    }
-
-    public void setSubFolderToOutputFile(String subFolderToOutputFile) {
-        this.subFolderToOutputFile = subFolderToOutputFile;
-    }
 
     @Override
     public String toString() {
@@ -49,7 +41,6 @@ public class CliArgs {
                 "type=" + type +
                 ", inputFilePath='" + inputFilePath + '\'' +
                 ", outputFilePath='" + outputFilePath + '\'' +
-                ", subFolderToOutputFile='" + subFolderToOutputFile + '\'' +
                 '}';
     }
 }
