@@ -1,5 +1,6 @@
 package logic;
 
+import errors.ErrorMessages;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,7 +22,7 @@ public class HibernateSF {
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
             }
         } catch (HibernateException ex) {
-            throw new RuntimeException("Ошибка инициализации SessionFactory Hibernate. Неверные данные в файле конфигурации");
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_17);
         }
     }
 

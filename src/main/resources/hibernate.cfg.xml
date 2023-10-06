@@ -8,7 +8,7 @@
         <property name="connection.url">jdbc:postgresql://localhost:5432/postgres</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">ABCdef123$%^</property>
-<!--        <property name="connection.autocommit">false</property>-->
+        <!-- <property name="connection.autocommit">false</property>-->
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">10</property>
         <!-- Select our SQL dialect -->
@@ -21,9 +21,12 @@
         <property name="current_session_context_class">thread</property>
         <!-- Create-drop the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
-<!--        <property name="default_schema">schema.sql</property>-->
-<!--        <property name="hbm2dll.import_files">/customers.sql,/products.sql</property>-->
-        
+        <!-- Set default catalog and schema for database -->
+        <property name="default_catalog">postgres</property>
+        <property name="default_schema">public</property>
+
+        <!-- <property name="hbm2dll.import_files">/dumpDB.sql</property>-->
+
         <mapping class="dao.CustomerEntity"></mapping>
         <mapping class="dao.ProductEntity"></mapping>
         <mapping class="dao.PurchaseEntity"></mapping>

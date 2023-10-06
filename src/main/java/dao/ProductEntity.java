@@ -4,7 +4,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "product", schema = "public", catalog = "postgres")
+@Table(name = "product")
+//Default значения для полей schema и catalog указаны в файле конфигурации Hibernate
+//@Table(name = "product", schema = "public", catalog = "postgres")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

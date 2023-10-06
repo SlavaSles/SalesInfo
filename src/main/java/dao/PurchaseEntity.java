@@ -5,7 +5,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "purchase", schema = "public", catalog = "postgres")
+@Table(name = "purchase")
+//Default значения для полей schema и catalog указаны в файле конфигурации Hibernate
+//@Table(name = "purchase", schema = "public", catalog = "postgres")
 public class PurchaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

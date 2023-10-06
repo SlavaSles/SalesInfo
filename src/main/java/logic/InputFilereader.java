@@ -8,6 +8,7 @@ import dto.request.Request;
 import dto.request.SearchRequest;
 import dto.request.StatRequest;
 import dto.response.ResponseType;
+import errors.ErrorMessages;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -28,12 +29,12 @@ public class InputFilereader {
     public Request getRequest() {
         String jsonFile = readFile();
         Request request;
-        if (type == ResponseType.SEARCH) {
+        if (type == ResponseType.search) {
             request = parseSearchRequest(jsonFile);
         } else {
             request = parseStatRequest(jsonFile);
         }
-        System.out.println(request);
+//        System.out.println(request);
         return request;
     }
 
@@ -50,15 +51,14 @@ public class InputFilereader {
             }
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Не удалось найти файл " + inputFilePath);
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_04 + inputFilePath);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Ошибка чтения файла " + inputFilePath);
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_05 + inputFilePath);
         }
         return builder.toString();
     }
 
-//    ToDo: сделать проверку на допустимые значения параметров (>< 0 и т. д.)
     /**
      * При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
      * Если во входном файле в каком-либо из критериев будут указаны некорректные данные,
@@ -72,12 +72,11 @@ public class InputFilereader {
             jsonData = objectMapper.readTree(jsonFile);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Ошибка преобразования json содержимого файла " + inputFilePath + " в объект");
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_06 + inputFilePath);
         }
         JsonNode criterias = jsonData.get("criterias");
         if (criterias == null) {
-            throw new RuntimeException("Тип операции в параметрах запуска не соответствует типу входного файла "
-                    + inputFilePath);
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_07 + inputFilePath);
         }
         for (JsonNode criteriaNode : criterias) {
             Criteriya criteriya = null;
@@ -88,7 +87,7 @@ public class InputFilereader {
                 } else if (textCriteria.contains("productName")) {
                     int minTimes = Integer.parseInt(criteriaNode.get("minTimes").asText());
                     if (minTimes < 1) {
-                        throw new IllegalArgumentException("Количество товаров minTimes должно быть больше 0");
+                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_08);
                     }
                     criteriya = new Product(criteriaNode.get("productName").asText(), minTimes);
                 } else if (textCriteria.contains("minExpenses")) {
@@ -96,27 +95,22 @@ public class InputFilereader {
                     int maxExpenses = Integer.parseInt(criteriaNode.get("maxExpenses").asText());
                     criteriya = new ExpensesRange(minExpenses, maxExpenses);
                     if (minExpenses < 0 || maxExpenses < 0) {
-                        throw new IllegalArgumentException("Минимальная minExpenses и максимальная maxExpenses " +
-                                "стоимость покупок должны быть не меньше 0");
+                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_09);
                     } else if (minExpenses > maxExpenses) {
-                        throw new IllegalArgumentException("Значение минимальной стоимости покупок minExpenses " +
-                                "должно быть меньше максимальной maxExpenses стоимости");
+                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_10);
                     }
                 } else if (textCriteria.contains("badCustomers")) {
                     int countBadCustomers = Integer.parseInt(criteriaNode.get("badCustomers").asText());
-                    if (countBadCustomers < 0) {
-                        throw new IllegalArgumentException("Количество запрашиваемых пассивных покупателей " +
-                                "должно быть больше 0");
+                    if (countBadCustomers < 1) {
+                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_11);
                     }
                     criteriya = new BadCustomers(countBadCustomers);
                 } else {
-                    throw new RuntimeException("Неверный формат одного из критериев (полей) во входном файле " +
-                            inputFilePath);
+                    throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_12 + inputFilePath);
                 }
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
-                throw new RuntimeException("Ошибка преобразования значения поля входного файла " +
-                        inputFilePath + " в целое число");
+                throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_13 + inputFilePath);
             }
             searchRequest.getCriteriyas().add(criteriya);
         }
@@ -133,13 +127,12 @@ public class InputFilereader {
             jsonData = objectMapper.readTree(jsonFile);
         } catch (JsonProcessingException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Ошибка преобразования json содержимого файла " + inputFilePath + " в объект");
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_06 + inputFilePath );
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         JsonNode startDateJson = jsonData.get("startDate");
         if (startDateJson == null) {
-            throw new RuntimeException("Тип операции в параметрах запуска не соответствует типу входного файла "
-                    + inputFilePath);
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_07 + inputFilePath);
         }
         String startDateString = startDateJson.asText();
         JsonNode endDateJson = jsonData.get("endDate");
@@ -149,14 +142,12 @@ public class InputFilereader {
             statRequest.setEndDate(LocalDate.parse(endDateString, formatter));
         } catch (DateTimeParseException ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Ошибка преобразования значения поля входного файла " +
-                    inputFilePath + " в дату");
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_14 + inputFilePath);
         }
         if (statRequest.getStartDate() == null || statRequest.getEndDate() == null) {
-            throw new RuntimeException("Неверный формат одной из дат во входном файле " + inputFilePath);
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_15 + inputFilePath);
         } else if (statRequest.getStartDate().isAfter(statRequest.getEndDate())) {
-            throw new RuntimeException("Дата начала периода для сбора статистики должна быть " +
-                    "меньше даты окончания периода");
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_16);
         }
         return statRequest;
     }

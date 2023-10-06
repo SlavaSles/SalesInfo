@@ -3,15 +3,16 @@ package dao;
 import javax.persistence.*;
 
 @Entity
-//@Table(name = "customer")
-@Table(name = "customer", schema = "public", catalog = "postgres")
+@Table(name = "customer")
+//Default значения для полей schema и catalog указаны в файле конфигурации Hibernate
+//@Table(name = "customer", schema = "public", catalog = "postgres")
 public class CustomerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
     private String lastname;
+    private String name;
 
     public CustomerEntity() {
     }
@@ -19,6 +20,12 @@ public class CustomerEntity {
     public CustomerEntity(String name, String surname) {
         this.name = name;
         this.lastname = surname;
+    }
+
+    public CustomerEntity(Integer id, String lastname, String name) {
+        this.id = id;
+        this.lastname = lastname;
+        this.name = name;
     }
 
     public String getName() {
@@ -41,8 +48,8 @@ public class CustomerEntity {
     public String toString() {
         return "CustomerEntity{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

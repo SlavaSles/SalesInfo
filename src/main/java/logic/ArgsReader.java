@@ -1,6 +1,7 @@
 package logic;
 
 import dto.response.ResponseType;
+import errors.ErrorMessages;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,19 +19,19 @@ public class ArgsReader {
     public CliArgs argsParser() throws IllegalArgumentException  {
         String errorMessage = "";
         if (args.length != 3) {
-            errorMessage = "В параметрах запуска указано неверное количество аргументов";
+            errorMessage = ErrorMessages.ERROR_MESSAGE_CODE_01;
             throw new IllegalArgumentException(errorMessage);
         }
         args[0] = args[0].toLowerCase();
         switch (args[0]) {
             case "search":
-                cliArgs.setType(ResponseType.SEARCH);
+                cliArgs.setType(ResponseType.search);
                 break;
             case "stat":
-                cliArgs.setType(ResponseType.STAT);
+                cliArgs.setType(ResponseType.stat);
                 break;
             default:
-                errorMessage = "В параметрах запуска неверно указан тип операции";
+                errorMessage = ErrorMessages.ERROR_MESSAGE_CODE_02;
                 throw new IllegalArgumentException(errorMessage);
         }
         Pattern pattern = Pattern.compile(FILENAME_REGEX);
@@ -43,7 +44,7 @@ public class ArgsReader {
                     cliArgs.setOutputFilePath(matcher.group(1).trim());
                 }
             } else {
-                errorMessage = "В параметрах запуска неверно указано имя файла";
+                errorMessage = ErrorMessages.ERROR_MESSAGE_CODE_03;
                 throw new IllegalArgumentException(errorMessage);
             }
         }

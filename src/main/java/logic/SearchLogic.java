@@ -5,7 +5,6 @@ import dao.ProductEntity;
 import dao.PurchaseEntity;
 import dto.criteria.*;
 import dto.request.SearchRequest;
-import dto.response.ResponseType;
 import dto.response.search.CriteriyaResult;
 import dto.response.search.Customer;
 import dto.response.search.SearchResponse;
@@ -25,7 +24,7 @@ public class SearchLogic {
     }
 
     public SearchResponse search() {
-        SearchResponse searchResponse = new SearchResponse(ResponseType.SEARCH);
+        SearchResponse searchResponse = new SearchResponse();
         List<CriteriyaResult> criteriyaResults = searchResponse.getResults();
         List<Criteriya> criteriyas = searchRequest.getCriteriyas();
         for (Criteriya criteriya : criteriyas) {
@@ -46,8 +45,8 @@ public class SearchLogic {
             }
             criteriyaResults.add(createCriteriyaResult(customers, criteriya));
         }
-        System.out.println("****");
-        System.out.println(searchResponse);
+//        System.out.println("****");
+//        System.out.println(searchResponse);
         return searchResponse;
     }
 
@@ -71,7 +70,7 @@ public class SearchLogic {
         customerQuery.select(customerRoot)
                 .where(builder.equal(customerRoot.get("lastname"), lastname.getLastName()));
         customers = (ArrayList<CustomerEntity>) session.createQuery(customerQuery).getResultList();
-        customers.forEach(System.out::println);
+//        customers.forEach(System.out::println);
         transaction.commit();
         session.close();
         return customers;
@@ -95,7 +94,7 @@ public class SearchLogic {
         ArrayList<Tuple> customerCountTuples = (ArrayList<Tuple>) session.createQuery(customerQuery).getResultList();
         for(Tuple tuple : customerCountTuples) {
             CustomerEntity customer = tuple.get(0, CustomerEntity.class);
-            System.out.println(customer);
+//            System.out.println(customer);
             customers.add(customer);
         }
         transaction.commit();
@@ -123,7 +122,7 @@ public class SearchLogic {
         ArrayList<Tuple> customerCountTuples = (ArrayList<Tuple>) session.createQuery(customerQuery).getResultList();
         for(Tuple tuple : customerCountTuples) {
             CustomerEntity customer = tuple.get(0, CustomerEntity.class);
-            System.out.println(customer);
+//            System.out.println(customer);
             customers.add(customer);
         }
         transaction.commit();
@@ -147,7 +146,7 @@ public class SearchLogic {
                 .setMaxResults(badCustomers.getBadCustomers()).getResultList();
         for(Tuple tuple : customerCountTuples) {
             CustomerEntity customer = tuple.get(0, CustomerEntity.class);
-            System.out.println(customer);
+//            System.out.println(customer);
             customers.add(customer);
         }
         transaction.commit();
