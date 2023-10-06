@@ -128,8 +128,10 @@ public class StatisticLogic {
                 .setParameter("endDate", statRequest.getEndDate())
                 .list();
         Object[] tuple = tuples.get(0);
-        statResponse.setTotalExpenses((BigDecimal) tuple[0]);
-        statResponse.setAvgExpenses(((BigDecimal) tuple[1]).setScale(2, BigDecimal.ROUND_HALF_UP));
+        if (tuple[0] != null && tuple[1] != null) {
+            statResponse.setTotalExpenses((BigDecimal) tuple[0]);
+            statResponse.setAvgExpenses(((BigDecimal) tuple[1]).setScale(2, BigDecimal.ROUND_HALF_UP));
+        }
         transaction.commit();
         session.close();
 
