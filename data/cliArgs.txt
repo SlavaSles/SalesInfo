@@ -1,6 +1,10 @@
-Рабочие варианты параметров для командной строки:
+Рабочие варианты параметров для командной строки для запуска в IDE:
 search data/inputSearch.json data/output.json
 stat data/inputStat.json data/output.json
+
+Рабочие варианты параметров для запуска из командной строки:
+search inputSearch.json output.json
+stat inputStat.json output.json
 
 Тестовые варианты параметров для командной строки для проверки ArgsReader:
 input.json output.json
