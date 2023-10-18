@@ -2,6 +2,8 @@ package logic;
 
 import dto.response.ResponseType;
 
+import java.util.Objects;
+
 /**
  * Класс, в котором содержатся аргументы командной строки в виде объекта
  */
@@ -87,5 +89,27 @@ public class CliArgs {
                 ", inputFilePath='" + inputFilePath + '\'' +
                 ", outputFilePath='" + outputFilePath + '\'' +
                 '}';
+    }
+
+    /**
+     * Проверка на равенство с аналогичным объектом для выполнения автотестов
+     * @param o объект, в котором содержатся аргументы командной строки
+     * @return true, если все поля объектов равны
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CliArgs)) return false;
+        CliArgs cliArgs = (CliArgs) o;
+        return type == cliArgs.type && Objects.equals(inputFilePath, cliArgs.inputFilePath) && Objects.equals(outputFilePath, cliArgs.outputFilePath);
+    }
+
+    /**
+     * Расчет hashCode объекта
+     * @return возвращает значение hashCode объекта
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, inputFilePath, outputFilePath);
     }
 }

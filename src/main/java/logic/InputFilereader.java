@@ -63,8 +63,7 @@ public class InputFilereader {
 
     private String readFile() {
         StringBuilder builder = new StringBuilder();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(inputFilePath));
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFilePath))){
             for (;;) {
                 String line = br.readLine();
                 if (line == null) {

@@ -45,7 +45,7 @@ Program, that return information about customers and purchases from PostgresDB.
     - результат работы приложения будет записан в файл, указанный в аргументах командной строки
 * из командной строки (cli):
     - при помощи Maven необходимо создать пакет с зависимостями (jar-with-dependencies) командой package;
-    - после успешного ее выполнения необходимо файл SalesInfo-1.0-jar-with-dependencies.jar из папки target поместить
+    - после успешного ее выполнения необходимо файл SalesInfo-1.0-jar-with-dependencies.jar из папки target поместить в
     одну папку с входными файлами (inputSearch.json и/или inputStat.json);
     - затем в командной строке выбрать эту папку и выполнить в ней запуск приложения одной из следующих команд, например:
         * java -jar SalesInfo-1.0-jar-with-dependencies.jar search inputSearch.json output.json;
@@ -63,7 +63,7 @@ Program, that return information about customers and purchases from PostgresDB.
    - ИМЯ_ВЫХОДНОГО_ФАЙЛА - имя файла, в который будут записаны результаты поиска по БД в формате JSON (например, output.json)
    Вместе с именами файлов можно указывать путь к подпапке/подпапкам, в которых они располагаются, в случае, если они 
    находят не в корне проекта (например, data/input.json) 
-2. Поиск покупателей по критериям (search)  
+2. Поиск покупателей по критериям (search). Критерии поиска могут многократно повторяться.  
 Формат входного файла:
 ```
 {
