@@ -12,20 +12,34 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, в котором реализован алгоритм сбора статистики из БД за период времени, указанный в запросе
+ */
 public class StatisticLogic {
+
+    /**
+     * Поле - запрос статистики из БД за период времени, указанный в запросе
+     */
     StatRequest statRequest;
 
+    /**
+     * Конструктор класса с параметром
+     * @param statRequest запрос статистики из БД за период времени, указанный в запросе
+     */
     public StatisticLogic(StatRequest statRequest) {
         this.statRequest = statRequest;
     }
 
+    /**
+     * Функция сбора статистики из БД за период времени, указанный в запросе
+     * @return возвращает ответ {@link StatResponse} в соответствии со спецификацией API
+     */
     public StatResponse getStatistic() {
         StatResponse statResponse = new StatResponse();
         laborDaysCount(statResponse);
         List<CustomerEntity> customersList = findAllCustomersAndTheirExpensesForACertainPeriod(statResponse);
         findAllProductExpensesForEachCustomer(statResponse, customersList);
         findTotalAndAvgExpenses(statResponse);
-//        System.out.println(statResponse);
         return statResponse;
     }
 
@@ -134,6 +148,5 @@ public class StatisticLogic {
         }
         transaction.commit();
         session.close();
-
     }
 }

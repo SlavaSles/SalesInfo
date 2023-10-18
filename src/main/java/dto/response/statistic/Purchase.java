@@ -3,8 +3,8 @@ package dto.response.statistic;
 import java.math.BigDecimal;
 
 public class Purchase {
-    String name; // ProductName
-    BigDecimal expenses;
+    private String name; // ProductName
+    private BigDecimal expenses;
 
     public Purchase() {
     }

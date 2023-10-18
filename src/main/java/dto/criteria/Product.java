@@ -1,8 +1,8 @@
 package dto.criteria;
 
 public class Product extends Criteriya {
-    String productName;
-    Integer minTimes;
+    private String productName;
+    private Integer minTimes;
 
     public Product() {
     }

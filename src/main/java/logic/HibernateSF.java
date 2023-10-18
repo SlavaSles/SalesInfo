@@ -9,11 +9,22 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+/**
+ * Класс для запуска Hibernate и создания SessionFactory
+ */
 public class HibernateSF {
 
+    /**
+     * Поле - SessionFactory
+     */
     private static SessionFactory sessionFactory = null;
 
-    public static void initSessionFactory() {
+    /**
+     * Статическая процедура инициализации Hibernate и SessionFactory
+     * @throws RuntimeException Исключение выбрасывается при ошибках в файле конфигурации hibernate.cfg.xml или в
+     * процессе создания SessionFactory
+     */
+    public static void initSessionFactory() throws RuntimeException{
         try {
             if (sessionFactory == null) {
                 StandardServiceRegistry registry = new StandardServiceRegistryBuilder().
@@ -26,6 +37,10 @@ public class HibernateSF {
         }
     }
 
+    /**
+     * Статическая функция создания новой сессии Hibernate
+     * @return возвращает новую сессию Hibernate
+     */
     public static Session openSession() {
         if (sessionFactory == null) {
             initSessionFactory();
@@ -33,6 +48,9 @@ public class HibernateSF {
         return sessionFactory.openSession();
     }
 
+    /**
+     * Процедура, закрывающая SessionFactory
+     */
     public static void close() {
         sessionFactory.close();
     }

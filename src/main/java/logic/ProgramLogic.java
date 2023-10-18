@@ -8,15 +8,33 @@ import dto.response.Response;
 import dto.response.ResponseType;
 import dto.response.statistic.StatResponse;
 
+/**
+ * Класс, в котором реализована логика выполнения программы
+ * @author Slava Sles
+ * @version 1.0
+ */
 public class ProgramLogic {
-    private String[] args;
-    CliArgs cliArgs;
-    OutputFilewriter outputFilewriter = new OutputFilewriter();
 
+    /**
+     * Поле - строковый массив аргументов командной строки
+     */
+    private String[] args;
+
+    /**
+     * Конструктор класса
+     * @param args строковый массив аргументов командной строки
+     */
     public ProgramLogic(String[] args) {
         this.args = args;
     }
+
+    /**
+     * Метод, который выполняет операции распознавания аргументов командной строки, чтения входного файла, выполнения
+     * запросов к БД и записи в выходной файл
+     */
     public void run() {
+        CliArgs cliArgs = null;
+        OutputFilewriter outputFilewriter = new OutputFilewriter();
         try {
             ArgsReader argsReader = new ArgsReader(args);
             cliArgs = argsReader.argsParser();

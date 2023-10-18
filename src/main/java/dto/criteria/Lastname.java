@@ -1,7 +1,7 @@
 package dto.criteria;
 
 public class Lastname extends Criteriya {
-    String lastName;
+    private String lastName;
 
     public Lastname() {
     }

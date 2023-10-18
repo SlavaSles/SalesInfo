@@ -6,16 +6,41 @@ import errors.ErrorMessages;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Класс, в котором выполняется преобразование аргументов командной строки в объект
+ */
 public class ArgsReader {
+
+    /**
+     * Поле - регулярное выражение для проверки правильности ввода имен входного и выходного файлов
+     */
     private final String FILENAME_REGEX = "^((\\w+[\\-_\\w]*/)*\\w+[\\-_\\w]*\\.\\w+)$";
+
+    /**
+     * Поле - строковый массив аргументов командной строки
+     */
     private String[] args;
+
+    /**
+     * Поле - аргументы командной строки в виде объекта {@link CliArgs}
+     */
     private CliArgs cliArgs;
 
+    /**
+     * Конструктор класса
+     * @param args строковый массив аргументов командной строки
+     */
     public ArgsReader(String[] args) {
         this.args = args;
         this.cliArgs = new CliArgs();
     }
 
+    /**
+     * Функция преобразования аргументов командной строки в объект
+     * @return возвращает аргументы командной строки в виде объекта
+     * @throws IllegalArgumentException Исключение выбрасывается в случае возникновения ошибок обработки строкового
+     * массива аргументов командной строки
+     */
     public CliArgs argsParser() throws IllegalArgumentException  {
         String errorMessage = "";
         if (args.length != 3) {

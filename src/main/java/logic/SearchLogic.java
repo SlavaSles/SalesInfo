@@ -16,13 +16,28 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, в котором реализован алгоритм поиска покупателей в БД по данным из запроса
+ */
 public class SearchLogic {
+
+    /**
+     * Поле - запрос поиска покупателей по критериям
+     */
     private SearchRequest searchRequest;
 
+    /**
+     * Конструктор класса с параметром
+     * @param searchRequest запрос поиска покупателей по критериям
+     */
     public SearchLogic(SearchRequest searchRequest) {
         this.searchRequest = searchRequest;
     }
 
+    /**
+     * Функция поиска покупателей в БД по заданным критериям
+     * @return возвращает ответ {@link SearchResponse} в соответствии со спецификацией API
+     */
     public SearchResponse search() {
         SearchResponse searchResponse = new SearchResponse();
         List<CriteriyaResult> criteriyaResults = searchResponse.getResults();
@@ -39,14 +54,11 @@ public class SearchLogic {
                 ExpensesRange expensesRange = (ExpensesRange) criteriya;
                 customers = expensesRangeSearch(expensesRange);
             } else if (criteriya instanceof BadCustomers) {
-                System.out.println("Criteriya is BadCustomer");
                 BadCustomers badCustomers = (BadCustomers) criteriya;
                 customers = badCustomersSearch(badCustomers);
             }
             criteriyaResults.add(createCriteriyaResult(customers, criteriya));
         }
-//        System.out.println("****");
-//        System.out.println(searchResponse);
         return searchResponse;
     }
 
@@ -70,7 +82,6 @@ public class SearchLogic {
         customerQuery.select(customerRoot)
                 .where(builder.equal(customerRoot.get("lastname"), lastname.getLastName()));
         customers = (ArrayList<CustomerEntity>) session.createQuery(customerQuery).getResultList();
-//        customers.forEach(System.out::println);
         transaction.commit();
         session.close();
         return customers;
@@ -94,7 +105,6 @@ public class SearchLogic {
         ArrayList<Tuple> customerCountTuples = (ArrayList<Tuple>) session.createQuery(customerQuery).getResultList();
         for(Tuple tuple : customerCountTuples) {
             CustomerEntity customer = tuple.get(0, CustomerEntity.class);
-//            System.out.println(customer);
             customers.add(customer);
         }
         transaction.commit();
@@ -122,7 +132,6 @@ public class SearchLogic {
         ArrayList<Tuple> customerCountTuples = (ArrayList<Tuple>) session.createQuery(customerQuery).getResultList();
         for(Tuple tuple : customerCountTuples) {
             CustomerEntity customer = tuple.get(0, CustomerEntity.class);
-//            System.out.println(customer);
             customers.add(customer);
         }
         transaction.commit();
@@ -146,7 +155,6 @@ public class SearchLogic {
                 .setMaxResults(badCustomers.getBadCustomers()).getResultList();
         for(Tuple tuple : customerCountTuples) {
             CustomerEntity customer = tuple.get(0, CustomerEntity.class);
-//            System.out.println(customer);
             customers.add(customer);
         }
         transaction.commit();

@@ -17,16 +17,40 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Класс, который выполняет чтение запроса из входного файла
+ */
 public class InputFilereader {
+
+    /**
+     * Поле - имя входного файла
+     */
     private String inputFilePath;
+
+    /**
+     * Поле - тип ответа
+     */
     private ResponseType type;
 
+    /**
+     * Конструктор класса
+     * @param cliArgs объект, в котором содержатся аргументы командной строки
+     */
     public InputFilereader(CliArgs cliArgs) {
         this.inputFilePath = cliArgs.getInputFilePath();
         this.type = cliArgs.getType();
     }
 
-    public Request getRequest() {
+    /**
+     * Функция, в которой выполняется чтение входного файла и формирование запроса
+     * @return возвращает объект запроса {@link Request}
+     * @throws RuntimeException Исключение выбрасывается:
+     * <p> - при возникновении ошибок чтения входного файла;</p>
+     * <p> - при его преобразовании в формат JSON;</p>
+     * <p> - при не соответствии содержимого файла спецификации API;</p>
+     * <p> - при не соответствии значений параметров запроса требованиям</p>
+     */
+    public Request getRequest() throws RuntimeException{
         String jsonFile = readFile();
         Request request;
         if (type == ResponseType.search) {
@@ -34,11 +58,10 @@ public class InputFilereader {
         } else {
             request = parseStatRequest(jsonFile);
         }
-//        System.out.println(request);
         return request;
     }
 
-    public String readFile() {
+    private String readFile() {
         StringBuilder builder = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(inputFilePath));
@@ -60,7 +83,7 @@ public class InputFilereader {
     }
 
     /**
-     * При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
+     * При парсинге названия полей JSON файла должны четко соответствовать спецификации.
      * Если во входном файле в каком-либо из критериев будут указаны некорректные данные,
      * то приложение выдаст сообщение об ошибке!
      */
@@ -116,8 +139,9 @@ public class InputFilereader {
         }
         return searchRequest;
     }
+
     /**
-     * При парсинге названия полей JSON файла должны четко соответствовать примеру из задания
+     * При парсинге названия полей JSON файла должны четко соответствовать спецификации
      */
     private StatRequest parseStatRequest(String jsonFile) {
         StatRequest statRequest = new StatRequest();

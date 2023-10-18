@@ -1,5 +1,8 @@
 package errors;
 
+/**
+ * Класс, в котором определены все используемые в приложении сообщения об ошибках
+ */
 public class ErrorMessages {
     public static final String ERROR_MESSAGE_CODE_01 = "01. В параметрах запуска указано неверное количество аргументов";
     public static final String ERROR_MESSAGE_CODE_02 = "02. В параметрах запуска неверно указан тип операции";
