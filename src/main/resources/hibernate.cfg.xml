@@ -19,7 +19,7 @@
         <property name="format_sql">true</property>
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
-        <!-- Create-drop the database schema on startup -->
+        <!-- Update the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
         <!-- Set default catalog and schema for database -->
         <property name="default_catalog">postgres</property>
