@@ -68,8 +68,7 @@ public class SearchLogic {
             Customer respCustomer = new Customer(customer.getName(), customer.getLastname());
             respCustomers.add(respCustomer);
         }
-        CriteriyaResult criteriyaResult = new CriteriyaResult(criteriya, respCustomers);
-        return criteriyaResult;
+        return new CriteriyaResult(criteriya, respCustomers);
     }
 
     private ArrayList<CustomerEntity> lastnameSearch(Lastname lastname) {

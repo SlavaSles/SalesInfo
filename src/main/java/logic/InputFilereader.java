@@ -89,7 +89,7 @@ public class InputFilereader {
     private SearchRequest parseSearchRequest(String jsonFile) {
         SearchRequest searchRequest = new SearchRequest();
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonData = null;
+        JsonNode jsonData;
         try {
             jsonData = objectMapper.readTree(jsonFile);
         } catch (JsonProcessingException ex) {
@@ -101,35 +101,9 @@ public class InputFilereader {
             throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_07 + inputFilePath);
         }
         for (JsonNode criteriaNode : criterias) {
-            Criteriya criteriya = null;
-            String textCriteria = criteriaNode.toString();
+            Criteriya criteriya;
             try {
-                if (textCriteria.contains("lastName")) {
-                    criteriya = new Lastname(criteriaNode.get("lastName").asText());
-                } else if (textCriteria.contains("productName")) {
-                    int minTimes = Integer.parseInt(criteriaNode.get("minTimes").asText());
-                    if (minTimes < 1) {
-                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_08);
-                    }
-                    criteriya = new Product(criteriaNode.get("productName").asText(), minTimes);
-                } else if (textCriteria.contains("minExpenses")) {
-                    int minExpenses = Integer.parseInt(criteriaNode.get("minExpenses").asText());
-                    int maxExpenses = Integer.parseInt(criteriaNode.get("maxExpenses").asText());
-                    criteriya = new ExpensesRange(minExpenses, maxExpenses);
-                    if (minExpenses < 0 || maxExpenses < 0) {
-                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_09);
-                    } else if (minExpenses > maxExpenses) {
-                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_10);
-                    }
-                } else if (textCriteria.contains("badCustomers")) {
-                    int countBadCustomers = Integer.parseInt(criteriaNode.get("badCustomers").asText());
-                    if (countBadCustomers < 1) {
-                        throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_11);
-                    }
-                    criteriya = new BadCustomers(countBadCustomers);
-                } else {
-                    throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_12 + inputFilePath);
-                }
+                criteriya = findCriteria(criteriaNode);
             } catch (NumberFormatException ex) {
                 ex.printStackTrace();
                 throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_13 + inputFilePath);
@@ -139,13 +113,44 @@ public class InputFilereader {
         return searchRequest;
     }
 
+    private Criteriya findCriteria(JsonNode criteriaNode) throws RuntimeException {
+        String textCriteria = criteriaNode.toString();
+        if (textCriteria.contains("lastName")) {
+            return new Lastname(criteriaNode.get("lastName").asText());
+        } else if (textCriteria.contains("productName")) {
+            int minTimes = Integer.parseInt(criteriaNode.get("minTimes").asText());
+            if (minTimes < 1) {
+                throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_08);
+            }
+            return new Product(criteriaNode.get("productName").asText(), minTimes);
+        } else if (textCriteria.contains("minExpenses")) {
+            int minExpenses = Integer.parseInt(criteriaNode.get("minExpenses").asText());
+            int maxExpenses = Integer.parseInt(criteriaNode.get("maxExpenses").asText());
+            Criteriya criteriya = new ExpensesRange(minExpenses, maxExpenses);
+            if (minExpenses < 0 || maxExpenses < 0) {
+                throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_09);
+            } else if (minExpenses > maxExpenses) {
+                throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_10);
+            }
+            return criteriya;
+        } else if (textCriteria.contains("badCustomers")) {
+            int countBadCustomers = Integer.parseInt(criteriaNode.get("badCustomers").asText());
+            if (countBadCustomers < 1) {
+                throw new IllegalArgumentException(ErrorMessages.ERROR_MESSAGE_CODE_11);
+            }
+            return new BadCustomers(countBadCustomers);
+        } else {
+            throw new RuntimeException(ErrorMessages.ERROR_MESSAGE_CODE_12 + inputFilePath);
+        }
+    }
+
     /**
      * При парсинге названия полей JSON файла должны четко соответствовать спецификации
      */
     private StatRequest parseStatRequest(String jsonFile) {
         StatRequest statRequest = new StatRequest();
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonData = null;
+        JsonNode jsonData;
         try {
             jsonData = objectMapper.readTree(jsonFile);
         } catch (JsonProcessingException ex) {

@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +145,7 @@ public class StatisticLogic {
         Object[] tuple = tuples.get(0);
         if (tuple[0] != null && tuple[1] != null) {
             statResponse.setTotalExpenses((BigDecimal) tuple[0]);
-            statResponse.setAvgExpenses(((BigDecimal) tuple[1]).setScale(2, BigDecimal.ROUND_HALF_UP));
+            statResponse.setAvgExpenses(((BigDecimal) tuple[1]).setScale(2, RoundingMode.HALF_UP));
         }
         transaction.commit();
         session.close();
