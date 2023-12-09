@@ -1,5 +1,5 @@
 # SalesInfo
-Program, that return information about customers and purchases from PostgresDB.
+The program that return information about customers and purchases from PostgresDB.
 
 # Краткое описание
 Программа выполняет следующие действия:
@@ -79,7 +79,7 @@ Program, that return information about customers and purchases from PostgresDB.
 ```
 {
    "type": "search", // Тип результата
-   "results": [ // Списки покупателей по критериям. Порядок список такой же, как в запросе (входном файле)
+   "results": [ // Списки покупателей по критериям. Порядок в списке такой же, как в запросе (входном файле)
       {
          "criteria": {"lastname": "Anthony"} // Критерий из запроса (входного файла)
          "results": [ // Список покупателей
